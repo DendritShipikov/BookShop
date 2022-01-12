@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <title>Bookshop</title>
+  </head>
+  <body>
+    <header>View book</header>
+    <div>
+      <table>
+        <tr>
+          <td>Title:</td>
+          <td th:text="${bookData.title}">title</td>
+        </tr>
+        <tr>
+          <td>Authors:</td>
+          <td th:text="${bookData.authors}">authors</td>
+        </tr>
+        <tr>
+          <td>Pages:</td>
+          <td th:text="${bookData.pages}">100</td>
+        </tr>
+        <tr>
+          <td>Amount:</td>
+          <td th:text="${bookData.amount}">0</td>
+        </tr>
+        <tr>
+          <td>Publisher:</td>
+          <td th:text="${userData.name}">name</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

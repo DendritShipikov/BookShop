@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <title>Bookshop</title>
+  </head>
+  <body>
+    <header>Edit book</header>
+    <div>
+      <form  method="post" th:action="@{/editbook}" th:object="${bookData}">
+        <input type="hidden" th:field="*{id}" th:value="*{id}"/>
+        <input type="hidden" th:field="*{userId}" th:value="*{userId}"/>
+        <table>
+          <tr>
+            <td>Title:</td>
+            <td><input type="text" th:field="*{title}" th:value="*{title}"/></td>
+          </tr>
+          <tr>
+            <td>Authors:</td>
+            <td><input type="text" th:field="*{authors}" th:value="*{title}"/></td>
+          </tr>
+          <tr>
+            <td>Pages:</td>
+            <td><input type="text" th:field="*{pages}" th:value="*{pages}"/></td>
+          </tr>
+          <tr>
+            <td>Amount:</td>
+            <td><input type="text" th:field="*{amount}" th:value="*{amount}"/></td>
+          </tr>
+        </table>
+        <input type="submit" value="Save book"/>
+      </form>
+    <div>
+  </body>
+</html>

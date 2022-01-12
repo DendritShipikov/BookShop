@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookshop</title>
+  </head>
+  <body>
+    <header>Edit book</header>
+    <table>
+      <tr>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>Title</th>
+      </tr>
+      <tr th:each="bookData : ${bookDatas}">
+        <td><a th:href="@{/deletebook?id={id}(id=${bookData.id})}">delete</a></td>
+        <td><a th:href="@{/editbook?id={id}(id=${bookData.id})}">edit</a></td>
+        <td th:text="${bookData.title}">title</td>
+      </tr>
+    </table>
+  </body>
+</html>
