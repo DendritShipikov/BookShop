@@ -20,6 +20,10 @@ public class UserData implements UserDetails {
     private String address;
 
     private boolean publisher;
+
+    private HashSet<GrantedAuthority> authorities = new HashSet<>();
+
+    public UserData() { authorities.add(new SimpleGrantedAuthority("ROLE_USER")); }
     
     public Long getId() { return id; }
 
@@ -35,14 +39,24 @@ public class UserData implements UserDetails {
 
     public boolean isPublisher() { return publisher; }
 
-    public void setPublisher(boolean publisher) { this.publisher = publisher; }
+    public void setPublisher(boolean publisher) {
+        if (this.publisher ^ publisher) {
+            if (publisher) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_PUBLISHER"));
+            } else {
+                authorities.remove(new SimpleGrantedAuthority("ROLE_PUBLISHER"));
+            }
+            this.publisher = publisher;
+        }
+    }
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-         Collection<GrantedAuthority> authorities = new HashSet<>();
-         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-         if (publisher) authorities.add(new SimpleGrantedAuthority("ROLE_PUBLISHER"));
-         return authorities;
+        return authorities;
+        /*Collection<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if (publisher) authorities.add(new SimpleGrantedAuthority("ROLE_PUBLISHER"));
+        return authorities;*/
     }
     
     @Override
