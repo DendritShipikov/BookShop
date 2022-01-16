@@ -17,7 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
 
 @Controller
-public class MainController {
+public class BookController {
 
     private UserService userService;
 
@@ -29,11 +29,11 @@ public class MainController {
     @Autowired
     public void setBookService(BookService bookService) { this.bookService = bookService; }
 
-    @GetMapping("/home")
+    @GetMapping("/books")
     public String homeGet(Model model) {
         List<BookData> bookDatas = bookService.findAll();
         model.addAttribute("bookDatas", bookDatas);
-        return "home";
+        return "books";
     }
 
     @GetMapping("/addbook")
@@ -48,7 +48,7 @@ public class MainController {
         UserData userData = (UserData)principal;
         bookData.setUserId(userData.getId());
         bookService.save(bookData);
-        return "redirect:/home";
+        return "redirect:/books";
     }
 
     @GetMapping("/editbook")
@@ -80,23 +80,6 @@ public class MainController {
         List<BookData> bookDatas = bookService.getByUser(userData.getId());
         model.addAttribute("bookDatas", bookDatas);
         return "mybooks";
-    }
-    
-    @GetMapping("/login")
-    public String loginGet() {
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String registerGet(Model model) {
-        model.addAttribute("userData", new UserData());
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public String registerPost(@ModelAttribute("userData") UserData userData) {
-        userService.save(userData);
-        return "redirect:/home";
     }
     
 }
