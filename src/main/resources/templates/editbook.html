@@ -5,6 +5,9 @@
   </head>
   <body>
     <header>Edit book</header>
+
+    <div th:replace="books :: menu"></div>
+
     <div>
       <form  method="post" th:action="@{/editbook}" th:object="${bookData}">
         <input type="hidden" th:field="*{id}" th:value="*{id}"/>

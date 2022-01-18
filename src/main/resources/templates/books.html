@@ -4,11 +4,28 @@
     <title>bookshop</title>
   </head>
   <body>
-    <div>
+    <header>Books</header>
+
+    <div th:fragment="menu">
+      <ul>
+        <li>
+          <a th:href="@{/books}">Books</a>
+        </li>
+        <li sec:authorize="hasRole('PUBLISHER')">
+          <a th:href="@{/addbook}">Add book</a>
+        </li>
+        <li sec:authorize="hasRole('PUBLISHER')">
+          <a th:href="@{/mybooks}">My books</a>
+        </li>
+        <li sec:authorize="hasRole('USER')">
+          <a th:href="@{/cart}">My cart</a>
+        </li>
+      </ul>
       <div sec:authorize="!isAuthenticated()">
         <a th:href="@{/register}">Registration</a>
         <a th:href="@{/login}">Log in</a>
       </div>
+
       <div sec:authorize="isAuthenticated()">
         Hi <span sec:authentication="principal.username">username</span>!
         <form th:action="@{/logout}" method="post">
@@ -16,9 +33,6 @@
         </form>
       </div>
 
-      <div sec:authorize="hasRole('PUBLISHER')">
-        <a th:href="@{/addbook}">Add book</a>
-      </div>
     </div>
 
     <div>

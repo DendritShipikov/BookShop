@@ -4,7 +4,10 @@
     <title>Bookshop</title>
   </head>
   <body>
-   <header>Add book</header>
+    <header>Add book</header>
+
+    <div th:replace="books :: menu"></div>
+
     <div>
       <form  method="post" th:action="@{/addbook}" th:object="${bookData}">
         <table>
