@@ -31,6 +31,7 @@
           <td th:text="${userData.name}">name</td>
         </tr>
       </table>
+      <a th:href="@{|/buy?id=${bookData.id}|}">Add to cart</a>
     </div>
   </body>
 </html>

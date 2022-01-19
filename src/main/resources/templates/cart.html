@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookshop</title>
+  </head>
+  <body>
+    <header>Cart</header>
+    <div th:replace="books :: menu"></div>
+    <div>
+      <table>
+        <tr>
+          <th>&nbsp;</th>
+          <th>Title</th>
+          <th>Authors</th>
+        </tr>
+        <tr th:each="bookData : ${bookDatas}">
+          <td><a th:href="@{|/cartdelete?id=${bookData.id}|}">Delete from cart</a></td>
+          <td th:text="${bookData.title}"></td>
+          <td th:text="${bookData.authors}"></td>
+        </tr>
+      </table>
+      <form th:action="@{/cart}" method="post">
+        <input type="submit" value="Buy"></input>
+      </form>
+    </div>
+  </body>
+</html>
