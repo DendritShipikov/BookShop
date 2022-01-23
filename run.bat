@@ -1,1 +1,1 @@
-call java -jar target/bookshop-1.0.jar
+start java -jar target/bookshop-1.0.jar
