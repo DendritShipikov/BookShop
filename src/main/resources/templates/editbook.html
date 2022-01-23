@@ -16,6 +16,7 @@
           <tr>
             <td>Title:</td>
             <td><input type="text" th:field="*{title}" th:value="*{title}"/></td>
+            <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></td>
           </tr>
           <tr>
             <td>Authors:</td>
@@ -24,6 +25,7 @@
           <tr>
             <td>Pages:</td>
             <td><input type="text" th:field="*{pages}" th:value="*{pages}"/></td>
+            <td th:if="${#fields.hasErrors('pages')}" th:errors="*{pages}"></td>
           </tr>
           <tr>
             <td>Amount:</td>

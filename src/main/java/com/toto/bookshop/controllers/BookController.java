@@ -65,7 +65,10 @@ public class BookController {
     }
 
     @PostMapping("/editbook")
-    public String editBookGet(@ModelAttribute("bookData") BookData bookData) {
+    public String editBookPost(@ModelAttribute("bookData") @Valid BookData bookData, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "editbook";
+        }
         bookService.save(bookData);
         return "redirect:/mybooks";
     }
