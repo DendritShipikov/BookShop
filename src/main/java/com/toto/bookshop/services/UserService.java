@@ -33,7 +33,8 @@ public class UserService {
     @Autowired
     public void setBCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) { this.bCryptPasswordEncoder = bCryptPasswordEncoder; }
 
-    public void save(UserData userData) {
+    public boolean save(UserData userData) {
+        if (userRepository.findByUsername(userData.getUsername()) != null) return false;
         userData.setPassword(bCryptPasswordEncoder.encode(userData.getPassword()));
         User user = userMapper.toEntity(userData);
         /*
@@ -49,6 +50,7 @@ public class UserService {
         }
         */
         userRepository.save(user);
+        return true;
     }
     
     public UserData getById(Long id) {

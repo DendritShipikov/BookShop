@@ -1,15 +1,20 @@
 package com.toto.bookshop.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Min;
+
 public class BookData {
 
     private Long id;
-
+    
+    @NotEmpty(message = "Title can't be empty")
     private String title;
 
     private String authors;
-
+    
+    @Min(value = 1, message = "Number of pages can't be less than 1")
     private int pages;
-
+    
     private int amount;
 
     private Long userId;

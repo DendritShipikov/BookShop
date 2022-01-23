@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
 import org.springframework.ui.Model;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import javax.validation.Valid;
 
 import java.util.List;
 
@@ -43,7 +46,10 @@ public class BookController {
     }
 
     @PostMapping("/addbook")
-    public String addBookPost(@ModelAttribute("bookData") BookData bookData) {
+    public String addBookPost(@ModelAttribute("bookData") @Valid BookData bookData, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "addbook";
+        }
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserData userData = (UserData)principal;
         bookData.setUserId(userData.getId());

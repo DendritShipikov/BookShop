@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +45,11 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerPost(@ModelAttribute("userData") UserData userData) {
-        userService.save(userData);
+    public String registerPost(@ModelAttribute("userData") UserData userData, BindingResult bindingResult) {
+        if (!userService.save(userData)) {
+            bindingResult.rejectValue("username", null, "User with such name is already exists");
+            return "register";
+        }
         return "redirect:/books";
     }
 
