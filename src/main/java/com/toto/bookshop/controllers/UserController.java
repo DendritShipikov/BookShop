@@ -2,6 +2,7 @@ package com.toto.bookshop.controllers;
 
 import com.toto.bookshop.services.UserService;
 import com.toto.bookshop.services.BookService;
+import com.toto.bookshop.services.CartService;
 import com.toto.bookshop.dto.UserData;
 import com.toto.bookshop.dto.BookData;
 import com.toto.bookshop.dto.CartData;
@@ -30,6 +31,8 @@ public class UserController {
 
     private BookService bookService;
 
+    private CartService cartService;
+
     static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
     
     @Autowired
@@ -37,6 +40,9 @@ public class UserController {
 
     @Autowired
     public void setBookService(BookService bookService) { this.bookService = bookService; }
+
+    @Autowired
+    public void setCartService(CartService cartService) { this.cartService = cartService; }
 
     @GetMapping("/login")
     public String loginGet() {
@@ -64,7 +70,7 @@ public class UserController {
     @GetMapping("/cart")
     public String cartGet(HttpSession session, Model model) {
         LOGGER.info("/cart GET request");
-        CartData cartData = getCartData(session);
+        CartData cartData = cartService.getCartData(session);
         model.addAttribute("bookDatas", cartData.getBookDatas());
         return "cart";
     }
@@ -72,7 +78,7 @@ public class UserController {
     @PostMapping("/cart")
     public String cartPost(HttpSession session) {
         LOGGER.info("/cart POST request");
-        CartData cartData = getCartData(session);
+        CartData cartData = cartService.getCartData(session);
         List<BookData> bookDatas = cartData.getBookDatas();
         for (BookData bookData : bookDatas) {
             bookData.setAmount(bookData.getAmount() - 1);
@@ -85,14 +91,14 @@ public class UserController {
     @GetMapping("/cartdelete")
     public String cartDeleteGet(@RequestParam Long id, HttpSession session) {
         LOGGER.info("/cartdelete POST request");
-        CartData cartData = getCartData(session);
+        CartData cartData = cartService.getCartData(session);
         cartData.remove(id);
         return "redirect:/cart";
     }
 
     @GetMapping("/thanks")
     public String thanksGet() {
-        LOGGER.info("/thanks GET request")
+        LOGGER.info("/thanks GET request");
         return "thanks";
     }
 
@@ -100,18 +106,9 @@ public class UserController {
     public String buyGet(@RequestParam Long id, HttpSession session) {
         LOGGER.info("/buy GET request, id=" + id);
         BookData bookData = bookService.getById(id);
-        CartData cartData = getCartData(session);
+        CartData cartData = cartService.getCartData(session);
         cartData.add(bookData);
         return "redirect:/books";
-    }
-
-    private CartData getCartData(HttpSession session) {
-        CartData cartData = (CartData)session.getAttribute("cartData");
-        if (cartData == null) {
-            cartData = new CartData();
-            session.setAttribute("cartData", cartData);
-        }
-        return cartData;
     }
     
 }
