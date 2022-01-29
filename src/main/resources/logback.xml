@@ -1,0 +1,28 @@
+<configuration>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n</pattern>
+        </layout>
+    </appender>
+    <appender name="springlogs" class="ch.qos.logback.core.FileAppender">
+        <file>logs/springlogs.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="mylogs" class="ch.qos.logback.core.FileAppender">
+        <file>logs/mylogs.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="com.toto" level="info">
+        <appender-ref ref="mylogs" />
+    </logger>
+    <logger name="org.springframework" level="info">
+        <appender-ref ref="springlogs" />
+    </logger>
+    <root level="info">
+        <appender-ref ref="console" />
+    </root>
+</configuration>

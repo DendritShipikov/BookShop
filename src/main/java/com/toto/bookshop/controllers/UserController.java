@@ -16,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -27,6 +30,8 @@ public class UserController {
 
     private BookService bookService;
 
+    static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
+    
     @Autowired
     public void setUserService(UserService userService) { this.userService = userService; }
 
@@ -35,17 +40,20 @@ public class UserController {
 
     @GetMapping("/login")
     public String loginGet() {
+        LOGGER.info("/login GET request");
         return "login";
     }
 
     @GetMapping("/register")
     public String registerGet(Model model) {
+        LOGGER.info("/register GET request");
         model.addAttribute("userData", new UserData());
         return "register";
     }
 
     @PostMapping("/register")
     public String registerPost(@ModelAttribute("userData") UserData userData, BindingResult bindingResult) {
+        LOGGER.info("/register POST request, username=" + userData.getUsername());
         if (!userService.save(userData)) {
             bindingResult.rejectValue("username", null, "User with such name is already exists");
             return "register";
@@ -55,6 +63,7 @@ public class UserController {
 
     @GetMapping("/cart")
     public String cartGet(HttpSession session, Model model) {
+        LOGGER.info("/cart GET request");
         CartData cartData = getCartData(session);
         model.addAttribute("bookDatas", cartData.getBookDatas());
         return "cart";
@@ -62,6 +71,7 @@ public class UserController {
 
     @PostMapping("/cart")
     public String cartPost(HttpSession session) {
+        LOGGER.info("/cart POST request");
         CartData cartData = getCartData(session);
         List<BookData> bookDatas = cartData.getBookDatas();
         for (BookData bookData : bookDatas) {
@@ -74,6 +84,7 @@ public class UserController {
 
     @GetMapping("/cartdelete")
     public String cartDeleteGet(@RequestParam Long id, HttpSession session) {
+        LOGGER.info("/cartdelete POST request");
         CartData cartData = getCartData(session);
         cartData.remove(id);
         return "redirect:/cart";
@@ -81,11 +92,13 @@ public class UserController {
 
     @GetMapping("/thanks")
     public String thanksGet() {
+        LOGGER.info("/thanks GET request")
         return "thanks";
     }
 
     @GetMapping("/buy")
     public String buyGet(@RequestParam Long id, HttpSession session) {
+        LOGGER.info("/buy GET request, id=" + id);
         BookData bookData = bookService.getById(id);
         CartData cartData = getCartData(session);
         cartData.add(bookData);
